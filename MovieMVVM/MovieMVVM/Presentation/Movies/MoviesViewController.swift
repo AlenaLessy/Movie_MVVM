@@ -3,6 +3,7 @@
 
 import UIKit
 
+/// Экран с фильмами
 final class MoviesViewController: UIViewController {
     // MARK: - Private Constants
 
