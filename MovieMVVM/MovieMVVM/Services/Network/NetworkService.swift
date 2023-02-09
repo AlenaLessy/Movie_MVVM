@@ -3,7 +3,7 @@
 
 import Foundation
 
-final class NetworkService {
+final class NetworkService: NetworkServiceProtocol {
     // MARK: - Private Constants
 
     private enum Constants {
@@ -22,17 +22,12 @@ final class NetworkService {
 
     // MARK: - Private Properties
 
-    static let shared = NetworkService()
     private let session = URLSession.shared
     private let decoder = JSONDecoder()
 
-    // MARK: - Private Init
-
-    private init() {}
-
     // MARK: - Public Methods
 
-    func requestMovies(kind: MovieKind, page: Int, completion: ((Result<MovieResponse, NetworkError>) -> ())?) {
+    func fetchMovies(kind: MovieKind, page: Int, completion: ((Result<MovieResponse, NetworkError>) -> ())?) {
         guard var url = URL(string: Constants.baseUrlString + kind.path) else {
             completion?(.failure(.urlFailure))
             return
@@ -62,7 +57,7 @@ final class NetworkService {
         }.resume()
     }
 
-    func requestMovie(id: Int, completion: ((Result<MovieDetails, NetworkError>) -> ())?) {
+    func fetchDetailsMovie(id: Int, completion: ((Result<MovieDetails, NetworkError>) -> ())?) {
         guard var url = URL(string: Constants.baseUrlString + Constants.movieText + id.description) else {
             completion?(.failure(.urlFailure))
             return
@@ -91,7 +86,7 @@ final class NetworkService {
         }.resume()
     }
 
-    func requestRecommendationsMovie(
+    func fetchRecommendationsMovies(
         id: Int,
         completion: ((Result<RecommendationMovieResponse, NetworkError>) -> ())?
     ) {
