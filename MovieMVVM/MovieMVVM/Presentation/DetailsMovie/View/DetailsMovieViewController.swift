@@ -29,7 +29,7 @@ class DetailsMovieViewController: UIViewController {
 
     // MARK: Public Properties
 
-    var detailsMovieViewModel: DetailsMovieViewModelProtocol?
+    var detailsMovieViewModel: DetailsMovieViewModelProtocol!
 
     // MARK: - LifeCycle
 
@@ -37,12 +37,12 @@ class DetailsMovieViewController: UIViewController {
         super.viewDidLoad()
         setupTableView()
         configureTableView()
-        configureBindings()
+        bind()
     }
 
     // MARK: - Private Methods
 
-    private func configureBindings() {
+    private func bind() {
         detailsMovieViewModel?.failureHandler = { [weak self] in
             guard let self else { return }
             self.showAlert(
@@ -88,10 +88,9 @@ extension DetailsMovieViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.detailsCellIdentifier)
             as? DetailsMovieTableViewCell else { return UITableViewCell() }
-        guard let model = detailsMovieViewModel?.movieDetails,
-              let imageService = detailsMovieViewModel?.imageService
+        guard let model = detailsMovieViewModel?.movieDetails
         else { return UITableViewCell() }
-        cell.configure(model, imageService: imageService)
+        cell.configure(model, viewModel: detailsMovieViewModel)
         cell.accessibilityIdentifier = "\(Constants.cellIdentifier)\(indexPath.row)"
         cell.collectionView.register(
             RelatedMoviesCollectionViewCell.self,
@@ -124,10 +123,9 @@ extension DetailsMovieViewController: UICollectionViewDataSource {
               let cell = collectionView.dequeueReusableCell(
                   withReuseIdentifier: Constants.relatedCellIdentifier,
                   for: indexPath
-              ) as? RelatedMoviesCollectionViewCell,
-              let imageService = detailsMovieViewModel?.imageService
+              ) as? RelatedMoviesCollectionViewCell
         else { return UICollectionViewCell() }
-        cell.configure(movie, imageService: imageService)
+        cell.configure(movie, viewModel: detailsMovieViewModel)
 
         return cell
     }

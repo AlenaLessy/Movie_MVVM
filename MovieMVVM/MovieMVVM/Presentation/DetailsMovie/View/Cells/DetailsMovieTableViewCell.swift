@@ -264,13 +264,15 @@ final class DetailsMovieTableViewCell: UITableViewCell {
         movieImageView.image = nil
     }
 
-    func configure(_ movie: MovieDetails, imageService: ImageServiceProtocol) {
+    func configure(_ movie: MovieDetails, viewModel: DetailsMovieViewModelProtocol) {
         movieNameLabel.text = movie.title
         movieDescriptionLabel.text = movie.overview
         ratingLabel.text = movie.rating.description
         currentReleaseDateLabel.text = movie.releaseDate
         currentTimeLabel.text = "\(movie.runtime.description) мин"
-        fetchPhoto(imageService: imageService, urlString: movie.posterPath)
+        viewModel.fetchPhoto(to: movie) { [weak self] data in
+            self?.movieImageView.image = UIImage(data: data)
+        }
         guard let countriesName = movie.productionCountries.first?.name
         else { return }
         currentCountryIssueLabel.text = countriesName
@@ -297,15 +299,6 @@ final class DetailsMovieTableViewCell: UITableViewCell {
         backgroundDescriptionView.addSubview(separationStripThreeView)
         backgroundDescriptionView.addSubview(relatedMoviesLabel)
         backgroundDescriptionView.addSubview(collectionView)
-    }
-
-    private func fetchPhoto(imageService: ImageServiceProtocol, urlString: String) {
-        imageService.fetchPhoto(byUrl: urlString) { [weak self] data in
-            guard let data,
-                  let self
-            else { return }
-            self.movieImageView.image = UIImage(data: data)
-        }
     }
 
     // MARK: - Constrains

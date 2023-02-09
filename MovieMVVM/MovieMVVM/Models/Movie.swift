@@ -17,7 +17,7 @@ struct Movie: Decodable {
     let title: String
     /// Рейтинг
     let rating: Double
-    
+
     enum CodingKeys: String, CodingKey {
         case id
         case posterPath = "poster_path"

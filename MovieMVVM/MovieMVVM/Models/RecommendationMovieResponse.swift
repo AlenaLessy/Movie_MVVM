@@ -5,7 +5,6 @@ import Foundation
 
 /// Модель массива рекоммендации
 struct RecommendationMovieResponse: Decodable {
-    
     /// Фильмы
     let movies: [RecommendationMovie]
 

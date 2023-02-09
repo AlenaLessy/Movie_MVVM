@@ -13,9 +13,6 @@ final class MoviesViewModel: MoviesViewModelProtocol {
 
     // MARK: - Public Properties
 
-    let networkService: NetworkServiceProtocol
-    let imageService: ImageServiceProtocol
-
     var currentKind: MovieKind = .topRated
     var movies: [Movie] = []
     var page = Constants.one
@@ -23,6 +20,11 @@ final class MoviesViewModel: MoviesViewModelProtocol {
     var isLoading = false
     var movieKindHandler: ((MovieKind) -> ())?
     var moviesViewData: ((MoviesViewData) -> Void)?
+
+    // MARK: - Private Properties
+
+    private let networkService: NetworkServiceProtocol
+    private let imageService: ImageServiceProtocol
 
     // MARK: - Initializers
 
@@ -36,6 +38,14 @@ final class MoviesViewModel: MoviesViewModelProtocol {
     }
 
     // MARK: - Public Methods
+
+    func fetchPhoto(to movie: Movie, completion: ((Data) -> Void)?) {
+        guard let urlString = movie.posterPath else { return }
+        imageService.fetchPhoto(byUrl: urlString) { data in
+            guard let data else { return }
+            completion?(data)
+        }
+    }
 
     func fetchMovies(_ kind: MovieKind, pagination: Bool = false) {
         isLoading = true

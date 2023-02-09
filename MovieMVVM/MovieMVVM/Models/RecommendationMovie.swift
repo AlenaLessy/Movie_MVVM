@@ -5,7 +5,6 @@ import Foundation
 
 /// Модель рекомендованного фильма
 struct RecommendationMovie: Decodable {
-    
     /// Постер фильма
     let posterPath: String?
 

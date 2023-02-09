@@ -85,12 +85,13 @@ final class MovieTableViewCell: UITableViewCell {
 
     // MARK: - Public Methods
 
-    func configure(movie: Movie, imageService: ImageServiceProtocol) {
+    func configure(movie: Movie, viewModel: MoviesViewModelProtocol) {
         movieNameLabel.text = movie.title
         movieDescriptionLabel.text = movie.overview
         movieRatingLabel.text = movie.rating.description
-        guard let urlString = movie.posterPath else { return }
-        fetchPhoto(imageService: imageService, urlString: urlString)
+        viewModel.fetchPhoto(to: movie) { [weak self] data in
+            self?.movieImageView.image = UIImage(data: data)
+        }
     }
 
     override func prepareForReuse() {
@@ -108,13 +109,6 @@ final class MovieTableViewCell: UITableViewCell {
         addSubview(movieNameLabel)
         addSubview(movieDescriptionLabel)
         addSubview(movieRatingLabel)
-    }
-
-    private func fetchPhoto(imageService: ImageServiceProtocol, urlString: String) {
-        imageService.fetchPhoto(byUrl: urlString) { [weak self] data in
-            guard let data else { return }
-            self?.movieImageView.image = UIImage(data: data)
-        }
     }
 
     // MARK: - Constrains

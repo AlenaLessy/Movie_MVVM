@@ -5,12 +5,11 @@ import Foundation
 
 /// Модель деталей фильма
 struct MovieDetails: Decodable {
-    
-/// Постер фильма
+    /// Постер фильма
     let posterPath: String
     /// Описание
     let overview: String
-   /// Заголовок
+    /// Заголовок
     let title: String
     /// Рейтинг
     let rating: Double
@@ -24,7 +23,7 @@ struct MovieDetails: Decodable {
     let productionCountries: [ProductionCountries]
     /// Id фильма
     let id: Int
-    
+
     enum CodingKeys: String, CodingKey {
         case posterPath = "backdrop_path"
         case overview

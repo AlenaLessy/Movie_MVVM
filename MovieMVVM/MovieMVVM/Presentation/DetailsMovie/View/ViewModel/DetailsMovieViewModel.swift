@@ -7,8 +7,6 @@ import Foundation
 final class DetailsMovieViewModel: DetailsMovieViewModelProtocol {
     // MARK: - Public Properties
 
-    let imageService: ImageServiceProtocol
-
     var movieDetails: MovieDetails?
     var recommendationMovies: [RecommendationMovie] = []
     var failureHandler: VoidHandler?
@@ -18,6 +16,7 @@ final class DetailsMovieViewModel: DetailsMovieViewModelProtocol {
     // MARK: - Private Properties
 
     private let networkService: NetworkServiceProtocol
+    private let imageService: ImageServiceProtocol
     private var id: Int
 
     // MARK: - Initializers
@@ -35,6 +34,22 @@ final class DetailsMovieViewModel: DetailsMovieViewModelProtocol {
     }
 
     // MARK: - Public Methods
+
+    func fetchPhoto(to movie: MovieDetails, completion: ((Data) -> Void)?) {
+        let urlString = movie.posterPath
+        imageService.fetchPhoto(byUrl: urlString) { data in
+            guard let data else { return }
+            completion?(data)
+        }
+    }
+
+    func fetchRecommendationMoviePhoto(to movie: RecommendationMovie, completion: ((Data) -> Void)?) {
+        guard let urlString = movie.posterPath else { return }
+        imageService.fetchPhoto(byUrl: urlString) { data in
+            guard let data else { return }
+            completion?(data)
+        }
+    }
 
     func fetchDetailsMovie() {
         networkService.fetchDetailsMovie(id: id) { [weak self] result in

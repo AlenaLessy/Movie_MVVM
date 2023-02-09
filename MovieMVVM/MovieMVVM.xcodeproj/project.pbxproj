@@ -36,7 +36,7 @@
 		57517CF82992508A0017C420 /* ApplicationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57517CF72992508A0017C420 /* ApplicationCoordinator.swift */; };
 		57517CFA2992517B0017C420 /* MoviesCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57517CF92992517B0017C420 /* MoviesCoordinator.swift */; };
 		57C18DD8299345CD00163DE4 /* Handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C18DD7299345CD00163DE4 /* Handlers.swift */; };
-		57C18DDB2993473200163DE4 /* UIViewController+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C18DDA2993473200163DE4 /* UIViewController+extension.swift */; };
+		57C18DDB2993473200163DE4 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C18DDA2993473200163DE4 /* UIViewController+Extension.swift */; };
 		57C18DE02993484600163DE4 /* DetailsMovieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C18DDF2993484600163DE4 /* DetailsMovieViewModel.swift */; };
 		57C18DE32993486100163DE4 /* DetailsMovieViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C18DE22993486100163DE4 /* DetailsMovieViewModelProtocol.swift */; };
 		57C18DE5299348B400163DE4 /* AssemblyModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C18DE4299348B400163DE4 /* AssemblyModuleBuilder.swift */; };
@@ -77,7 +77,7 @@
 		57517CF72992508A0017C420 /* ApplicationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationCoordinator.swift; sourceTree = "<group>"; };
 		57517CF92992517B0017C420 /* MoviesCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesCoordinator.swift; sourceTree = "<group>"; };
 		57C18DD7299345CD00163DE4 /* Handlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Handlers.swift; sourceTree = "<group>"; };
-		57C18DDA2993473200163DE4 /* UIViewController+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+extension.swift"; sourceTree = "<group>"; };
+		57C18DDA2993473200163DE4 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		57C18DDF2993484600163DE4 /* DetailsMovieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsMovieViewModel.swift; sourceTree = "<group>"; };
 		57C18DE22993486100163DE4 /* DetailsMovieViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsMovieViewModelProtocol.swift; sourceTree = "<group>"; };
 		57C18DE4299348B400163DE4 /* AssemblyModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssemblyModuleBuilder.swift; sourceTree = "<group>"; };
@@ -268,7 +268,7 @@
 		57C18DDC2993473E00163DE4 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				57C18DDA2993473200163DE4 /* UIViewController+extension.swift */,
+				57C18DDA2993473200163DE4 /* UIViewController+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -451,7 +451,7 @@
 				57517CF82992508A0017C420 /* ApplicationCoordinator.swift in Sources */,
 				57C18DE5299348B400163DE4 /* AssemblyModuleBuilder.swift in Sources */,
 				572DD092290BF9D700D0DA78 /* ProductionCountries.swift in Sources */,
-				57C18DDB2993473200163DE4 /* UIViewController+extension.swift in Sources */,
+				57C18DDB2993473200163DE4 /* UIViewController+Extension.swift in Sources */,
 				572DD08A290BE3A500D0DA78 /* NetworkError.swift in Sources */,
 				57365CAB2907C77700A72B5C /* SceneDelegate.swift in Sources */,
 				57C2EEB029097FEB00042BAB /* DetailsMovieTableViewCell.swift in Sources */,

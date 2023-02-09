@@ -51,9 +51,11 @@ final class RelatedMoviesCollectionViewCell: UICollectionViewCell {
 
     // MARK: - Public Methods
 
-    func configure(_ movie: RecommendationMovie, imageService: ImageServiceProtocol) {
-        guard let urlString = movie.posterPath else { return }
-        fetchPhoto(imageService: imageService, urlString: urlString)
+    func configure(_ movie: RecommendationMovie, viewModel: DetailsMovieViewModelProtocol) {
+        viewModel.fetchRecommendationMoviePhoto(to: movie) { [weak self] data in
+            guard let self else { return }
+            self.movieImageView.image = UIImage(data: data)
+        }
         reloadInputViews()
     }
 
@@ -61,13 +63,6 @@ final class RelatedMoviesCollectionViewCell: UICollectionViewCell {
 
     private func addSubviews() {
         contentView.addSubview(movieImageView)
-    }
-
-    private func fetchPhoto(imageService: ImageServiceProtocol, urlString: String) {
-        imageService.fetchPhoto(byUrl: urlString) { [weak self] data in
-            guard let data else { return }
-            self?.movieImageView.image = UIImage(data: data)
-        }
     }
 
     // MARK: - Constrains

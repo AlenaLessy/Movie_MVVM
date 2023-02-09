@@ -278,7 +278,7 @@ extension MoviesViewController: UITableViewDataSource {
             as? MovieTableViewCell
         else { return UITableViewCell() }
         let movie = moviesViewModel.movies[indexPath.row]
-        cell.configure(movie: movie, imageService: moviesViewModel.imageService)
+        cell.configure(movie: movie, viewModel: moviesViewModel)
         cell.accessibilityIdentifier = "\(Constants.cellIdentifier)\(indexPath.row)"
         return cell
     }
