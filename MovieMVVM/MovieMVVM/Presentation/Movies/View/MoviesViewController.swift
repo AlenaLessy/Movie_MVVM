@@ -27,6 +27,8 @@ final class MoviesViewController: UIViewController {
         static let cellIdentifier = "cellIdentifier"
         static let buttonAlphaFullValue = 1.0
         static let buttonAlphaHalfValue = 0.5
+        static let titleAlertText = "Внимание"
+        static let messageAlertText = "Введите ваш APIKEY"
     }
 
     private enum ConstantsOfConstraint {
@@ -120,6 +122,7 @@ final class MoviesViewController: UIViewController {
         super.viewWillLayoutSubviews()
         switch moviesViewData {
         case .initial:
+            safeApiKey()
             setupUI()
             configureBindings()
             setupMoviesViewDataStatus()
@@ -141,6 +144,18 @@ final class MoviesViewController: UIViewController {
     }
 
     // MARK: - Private Methods
+
+    private func safeApiKey() {
+        moviesViewModel.reloadApiKeyValue = { [weak self] in
+            self?.showAlertWidthTextfield(
+                title: Constants.alertTitleText,
+                message: Constants.alertMessageText,
+                actionTitle: Constants.alertActionTitleText
+            ) { [weak self] apikey in
+                self?.moviesViewModel.safeApiKey(value: apikey)
+            }
+        }
+    }
 
     @objc private func refreshControlAction() {
         moviesViewModel.refreshControlAction()

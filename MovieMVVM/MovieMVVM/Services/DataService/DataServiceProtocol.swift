@@ -1,10 +1,10 @@
-// NetworkServiceProtocol.swift
+// DataServiceProtocol.swift
 // Copyright © RoadMap. All rights reserved.
 
 import Foundation
 
-/// Протокол сервиса изображений
-protocol NetworkServiceProtocol {
+/// Протокол сервиса по получению данных
+protocol DataServiceProtocol {
     func fetchMovies(
         kind: MovieKind,
         page: Int,

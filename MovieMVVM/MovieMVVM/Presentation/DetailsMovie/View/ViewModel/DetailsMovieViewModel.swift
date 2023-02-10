@@ -15,19 +15,20 @@ final class DetailsMovieViewModel: DetailsMovieViewModelProtocol {
 
     // MARK: - Private Properties
 
-    private let networkService: NetworkServiceProtocol
+    private let dataService: DataServiceProtocol
     private let imageService: ImageServiceProtocol
+    private let storageKeyChain: StorageKeyChainProtocol = StorageKeyChain()
     private var id: Int
 
     // MARK: - Initializers
 
     init(
         id: Int,
-        networkService: NetworkServiceProtocol,
+        dataService: DataServiceProtocol,
         imageService: ImageServiceProtocol
     ) {
         self.id = id
-        self.networkService = networkService
+        self.dataService = dataService
         self.imageService = imageService
         fetchRecommendationMovies()
         fetchDetailsMovie()
@@ -52,35 +53,43 @@ final class DetailsMovieViewModel: DetailsMovieViewModelProtocol {
     }
 
     func fetchDetailsMovie() {
-        networkService.fetchDetailsMovie(id: id) { [weak self] result in
-            guard let self else { return }
-            DispatchQueue.main.async {
-                switch result {
-                case .failure:
-                    self.failureHandler?()
-                case let .success(movieDetails):
-                    self.movieDetails = movieDetails
-                    self.reloadMovieHandler?()
+        dataService
+            .fetchDetailsMovie(
+                id: id,
+                apiKey: storageKeyChain.readValueFromKeyChain(from: .apiKey)
+            ) { [weak self] result in
+                guard let self else { return }
+                DispatchQueue.main.async {
+                    switch result {
+                    case .failure:
+                        self.failureHandler?()
+                    case let .success(movieDetails):
+                        self.movieDetails = movieDetails
+                        self.reloadMovieHandler?()
+                    }
                 }
             }
-        }
     }
 
     func fetchRecommendationMovies() {
-        networkService.fetchRecommendationsMovies(id: id) { [weak self] result in
-            guard let self else { return }
+        dataService
+            .fetchRecommendationsMovies(
+                id: id,
+                apiKey: storageKeyChain.readValueFromKeyChain(from: .apiKey)
+            ) { [weak self] result in
+                guard let self else { return }
 
-            DispatchQueue.main.async {
-                switch result {
-                case let .success(response):
-                    self.recommendationMovies = response.movies
-                    self.reloadRecommendationMoviesHandler?()
-                    self.reloadMovieHandler?()
+                DispatchQueue.main.async {
+                    switch result {
+                    case let .success(response):
+                        self.recommendationMovies = response.movies
+                        self.reloadRecommendationMoviesHandler?()
+                        self.reloadMovieHandler?()
 
-                case .failure:
-                    self.failureHandler?()
+                    case .failure:
+                        self.failureHandler?()
+                    }
                 }
             }
-        }
     }
 }

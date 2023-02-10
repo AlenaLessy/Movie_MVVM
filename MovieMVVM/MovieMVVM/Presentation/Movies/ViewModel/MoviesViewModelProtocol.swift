@@ -12,9 +12,11 @@ protocol MoviesViewModelProtocol: AnyObject {
     var isLoading: Bool { get }
     var movieKindHandler: ((MovieKind) -> ())? { get set }
     var moviesViewData: ((MoviesViewData) -> Void)? { get set }
+    var reloadApiKeyValue: VoidHandler? { get set }
     func fetchMovies(_ kind: MovieKind, pagination: Bool)
     func handleChangedKind(to identifier: String?)
     func newFetchMovies(to indexPathRow: Int)
     func refreshControlAction()
     func fetchPhoto(to movie: Movie, completion: ((Data) -> Void)?)
+    func safeApiKey(value: String)
 }

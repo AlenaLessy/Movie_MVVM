@@ -8,6 +8,7 @@ protocol AssemblyBuilderProtocol {
     func makeMoviesModule() -> UIViewController
     func makeDetailsMovieModule(id: Int) -> UIViewController
     func makeImageService() -> ImageServiceProtocol
+    func makeDataService() -> DataServiceProtocol
 }
 
 /// Составление модулей
@@ -16,11 +17,13 @@ final class AssemblyModuleBuilder: AssemblyBuilderProtocol {
 
     func makeMoviesModule() -> UIViewController {
         let view = MoviesViewController()
-        let networkService = NetworkService()
+        let dataService = makeDataService()
         let imageService = makeImageService()
+        let storageKeyChain = StorageKeyChain()
         let moviesViewModel = MoviesViewModel(
-            networkService: networkService,
-            imageService: imageService
+            dataService: dataService,
+            imageService: imageService,
+            storageKeyChain: storageKeyChain
         )
         view.moviesViewModel = moviesViewModel
         return view
@@ -28,11 +31,11 @@ final class AssemblyModuleBuilder: AssemblyBuilderProtocol {
 
     func makeDetailsMovieModule(id: Int) -> UIViewController {
         let view = DetailsMovieViewController()
-        let networkService = NetworkService()
+        let dataService = makeDataService()
         let imageService = makeImageService()
         let detailsMovieViewModel = DetailsMovieViewModel(
             id: id,
-            networkService: networkService,
+            dataService: dataService,
             imageService: imageService
         )
         view.detailsMovieViewModel = detailsMovieViewModel
@@ -44,5 +47,12 @@ final class AssemblyModuleBuilder: AssemblyBuilderProtocol {
         let imageApiService = ImageApiService()
         let imageService = ImageService(fileManagerService: fileManagerService, imageApiService: imageApiService)
         return imageService
+    }
+
+    func makeDataService() -> DataServiceProtocol {
+        let networkService = NetworkService()
+        let coreDataService = CoreDataService()
+        let dataProvider = DataService(networkService: networkService, coreDataService: coreDataService)
+        return dataProvider
     }
 }

@@ -6,11 +6,11 @@ import Foundation
 /// Модель массива фильмов
 struct MovieResponse: Decodable {
     /// Фильмы
-    let movies: [Movie]
+    var movies: [Movie]
     /// Текущая страница фильмов
-    let page: Int
+    var page: Int
     /// Общее количество страниц
-    let totalPages: Int
+    var totalPages: Int
 
     enum CodingKeys: String, CodingKey {
         case movies = "results"

@@ -12,3 +12,17 @@ extension UIViewController {
         present(alertController, animated: true)
     }
 }
+
+/// Универсальный алерт c текстфилдом
+extension UIViewController {
+    func showAlertWidthTextfield(title: String?, message: String?, actionTitle: String?, handler: ((String) -> Void)?) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let alertControllerAction = UIAlertAction(title: actionTitle, style: .default) { _ in
+            guard let apiKey = alertController.textFields?.first?.text else { return }
+            handler?(apiKey)
+        }
+        alertController.addAction(alertControllerAction)
+        alertController.addTextField()
+        present(alertController, animated: true)
+    }
+}
