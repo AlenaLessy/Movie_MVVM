@@ -4,12 +4,6 @@
 import Foundation
 import KeychainSwift
 
-/// Протокол хранилища ключей
-protocol StorageKeyChainProtocol {
-    func safeValueToKeyChain(key: KeyFromKeyChainKind, value: String)
-    func readValueFromKeyChain(from key: KeyFromKeyChainKind) -> String
-}
-
 /// Хранилище ключей
 final class StorageKeyChain: StorageKeyChainProtocol {
     // MARK: - Private Constants
