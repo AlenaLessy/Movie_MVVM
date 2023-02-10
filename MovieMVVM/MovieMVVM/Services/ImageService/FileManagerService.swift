@@ -1,9 +1,5 @@
-//
-//  FileManagerService.swift
-//  MovieMVVM
-//
-//  Created by Алена Панченко on 10.02.2023.
-//
+// FileManagerService.swift
+// Copyright © RoadMap. All rights reserved.
 
 import Foundation
 

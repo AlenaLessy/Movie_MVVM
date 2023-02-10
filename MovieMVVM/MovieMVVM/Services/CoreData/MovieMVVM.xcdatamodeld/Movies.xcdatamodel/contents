@@ -35,10 +35,5 @@
     <entity name="CoreDataRecommendationMovie" representedClassName="CoreDataRecommendationMovie" syncable="YES" codeGenerationType="class">
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="posterPath" optional="YES" attributeType="String" customClassName="[String]"/>
-        <uniquenessConstraints>
-            <uniquenessConstraint>
-                <constraint value="id"/>
-            </uniquenessConstraint>
-        </uniquenessConstraints>
     </entity>
 </model>

@@ -59,7 +59,7 @@ final class CoreDataService: CoreDataServiceProtocol {
 
     func safeMovieDetails(movie: MovieDetails) {
         guard let context else { return }
-        // context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         guard let entity = NSEntityDescription.entity(
             forEntityName: Constants.coreDataMovieDetailsEntityName,
             in: context
@@ -84,7 +84,6 @@ final class CoreDataService: CoreDataServiceProtocol {
 
     func safeRecommendationMovies(id: Int, recommendationMovieResponse: RecommendationMovieResponse) {
         guard let context else { return }
-        context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         guard let entity = NSEntityDescription.entity(
             forEntityName: Constants.coreDataRecommendationMovieEntityName,
             in: context
