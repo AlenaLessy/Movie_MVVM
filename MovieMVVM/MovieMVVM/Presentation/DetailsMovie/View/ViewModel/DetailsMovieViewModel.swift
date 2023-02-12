@@ -1,5 +1,5 @@
 // DetailsMovieViewModel.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © KarpovaAV. All rights reserved.
 
 import Foundation
 
@@ -36,7 +36,7 @@ final class DetailsMovieViewModel: DetailsMovieViewModelProtocol {
 
     // MARK: - Public Methods
 
-    func fetchPhoto(to movie: MovieDetails, completion: ((Data) -> Void)?) {
+    func fetchPhoto(to movie: MovieDetails, completion: DataHandler?) {
         let urlString = movie.posterPath
         imageService.fetchPhoto(byUrl: urlString) { data in
             guard let data else { return }
@@ -44,7 +44,7 @@ final class DetailsMovieViewModel: DetailsMovieViewModelProtocol {
         }
     }
 
-    func fetchRecommendationMoviePhoto(to movie: RecommendationMovie, completion: ((Data) -> Void)?) {
+    func fetchRecommendationMoviePhoto(to movie: RecommendationMovie, completion: DataHandler?) {
         guard let urlString = movie.posterPath else { return }
         imageService.fetchPhoto(byUrl: urlString) { data in
             guard let data else { return }

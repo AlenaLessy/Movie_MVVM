@@ -43,6 +43,7 @@
 		57B0F82E299627FE005D4ECB /* CoreDataServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B0F82D299627FE005D4ECB /* CoreDataServiceProtocol.swift */; };
 		57B0F83029962910005D4ECB /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B0F82F29962910005D4ECB /* DataService.swift */; };
 		57B0F83329962941005D4ECB /* DataServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B0F83229962941005D4ECB /* DataServiceProtocol.swift */; };
+		57BE244A2998387600DA5A53 /* ImageProxyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BE24492998387600DA5A53 /* ImageProxyService.swift */; };
 		57C18DD8299345CD00163DE4 /* Handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C18DD7299345CD00163DE4 /* Handlers.swift */; };
 		57C18DDB2993473200163DE4 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C18DDA2993473200163DE4 /* UIViewController+Extension.swift */; };
 		57C18DE02993484600163DE4 /* DetailsMovieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C18DDF2993484600163DE4 /* DetailsMovieViewModel.swift */; };
@@ -95,6 +96,7 @@
 		57B0F82D299627FE005D4ECB /* CoreDataServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataServiceProtocol.swift; sourceTree = "<group>"; };
 		57B0F82F29962910005D4ECB /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		57B0F83229962941005D4ECB /* DataServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataServiceProtocol.swift; sourceTree = "<group>"; };
+		57BE24492998387600DA5A53 /* ImageProxyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProxyService.swift; sourceTree = "<group>"; };
 		57C18DD7299345CD00163DE4 /* Handlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Handlers.swift; sourceTree = "<group>"; };
 		57C18DDA2993473200163DE4 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		57C18DDF2993484600163DE4 /* DetailsMovieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsMovieViewModel.swift; sourceTree = "<group>"; };
@@ -272,6 +274,7 @@
 			isa = PBXGroup;
 			children = (
 				57517CEB299249CF0017C420 /* ImageService.swift */,
+				57BE24492998387600DA5A53 /* ImageProxyService.swift */,
 				57459317299673DE00979AFE /* ImageApiServiceProtocol.swift */,
 				574593192996741B00979AFE /* ImageApiService.swift */,
 				57517CEE29924A2A0017C420 /* ImageServiceProtocol.swift */,
@@ -578,6 +581,7 @@
 				57EF2BB9299580480070D954 /* MovieMVVM.xcdatamodeld in Sources */,
 				57C18DDB2993473200163DE4 /* UIViewController+Extension.swift in Sources */,
 				57B0F83329962941005D4ECB /* DataServiceProtocol.swift in Sources */,
+				57BE244A2998387600DA5A53 /* ImageProxyService.swift in Sources */,
 				572DD08A290BE3A500D0DA78 /* NetworkError.swift in Sources */,
 				57365CAB2907C77700A72B5C /* SceneDelegate.swift in Sources */,
 				57C2EEB029097FEB00042BAB /* DetailsMovieTableViewCell.swift in Sources */,

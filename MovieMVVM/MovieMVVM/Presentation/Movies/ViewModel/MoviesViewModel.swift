@@ -1,5 +1,5 @@
 // MoviesViewModel.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © KarpovaAV. All rights reserved.
 
 import Foundation
 
@@ -18,8 +18,8 @@ final class MoviesViewModel: MoviesViewModelProtocol {
     var page = Constants.one
     var totalPages = Constants.one
     var isLoading = false
-    var movieKindHandler: ((MovieKind) -> ())?
-    var moviesViewData: ((MoviesViewData) -> Void)?
+    var movieKindHandler: MovieKindHandler?
+    var moviesViewData: MoviesViewDataHandler?
     var reloadApiKeyValue: VoidHandler?
 
     // MARK: - Private Properties
@@ -50,7 +50,7 @@ final class MoviesViewModel: MoviesViewModelProtocol {
         reloadApiKeyValue?()
     }
 
-    func fetchPhoto(to movie: Movie, completion: ((Data) -> Void)?) {
+    func fetchPhoto(to movie: Movie, completion: DataHandler?) {
         guard let urlString = movie.posterPath else { return }
         imageService.fetchPhoto(byUrl: urlString) { data in
             guard let data else { return }
@@ -70,8 +70,7 @@ final class MoviesViewModel: MoviesViewModelProtocol {
             ) { [weak self] result in
                 guard let self else { return }
                 self.isLoading = false
-                DispatchQueue.main.async { [weak self] in
-                    guard let self else { return }
+                DispatchQueue.main.async {
                     switch result {
                     case let .success(response):
                         self.page = response.page

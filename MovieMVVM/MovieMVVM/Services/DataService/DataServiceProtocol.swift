@@ -1,5 +1,5 @@
 // DataServiceProtocol.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © KarpovaAV. All rights reserved.
 
 import Foundation
 

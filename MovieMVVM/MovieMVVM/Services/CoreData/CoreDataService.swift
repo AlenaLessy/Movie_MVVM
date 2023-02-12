@@ -1,5 +1,5 @@
 // CoreDataService.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © KarpovaAV. All rights reserved.
 
 import CoreData
 import UIKit
@@ -26,10 +26,10 @@ final class CoreDataService: CoreDataServiceProtocol {
     // MARK: - Public Methods
 
     func safeMovies(movieType: MovieKind, movieResponse: MovieResponse) {
-        guard let context else { return }
-        context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-        guard let entity = NSEntityDescription.entity(forEntityName: Constants.moviesEntityName, in: context)
+        guard let context,
+              let entity = NSEntityDescription.entity(forEntityName: Constants.moviesEntityName, in: context)
         else { return }
+        context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         let movies = movieResponse.movies
         for movie in movies {
             let coreDataMoviesObject = CoreDataMovies(entity: entity, insertInto: context)
@@ -58,13 +58,13 @@ final class CoreDataService: CoreDataServiceProtocol {
     }
 
     func safeMovieDetails(movie: MovieDetails) {
-        guard let context else { return }
-        context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-        guard let entity = NSEntityDescription.entity(
-            forEntityName: Constants.coreDataMovieDetailsEntityName,
-            in: context
-        )
+        guard let context,
+              let entity = NSEntityDescription.entity(
+                  forEntityName: Constants.coreDataMovieDetailsEntityName,
+                  in: context
+              )
         else { return }
+        context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         let coreDataMovieDetailsObject = CoreDataMovieDetails(entity: entity, insertInto: context)
         coreDataMovieDetailsObject.id = Int64(movie.id)
         coreDataMovieDetailsObject.rating = movie.rating
@@ -83,11 +83,11 @@ final class CoreDataService: CoreDataServiceProtocol {
     }
 
     func safeRecommendationMovies(id: Int, recommendationMovieResponse: RecommendationMovieResponse) {
-        guard let context else { return }
-        guard let entity = NSEntityDescription.entity(
-            forEntityName: Constants.coreDataRecommendationMovieEntityName,
-            in: context
-        )
+        guard let context,
+              let entity = NSEntityDescription.entity(
+                  forEntityName: Constants.coreDataRecommendationMovieEntityName,
+                  in: context
+              )
         else { return }
         let movies = recommendationMovieResponse.movies
         for movie in movies {

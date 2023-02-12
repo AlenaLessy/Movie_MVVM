@@ -1,5 +1,5 @@
 // Handlers.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © KarpovaAV. All rights reserved.
 
 import Foundation
 
@@ -7,3 +7,6 @@ import Foundation
 typealias BoolHandler = (Bool) -> ()
 typealias VoidHandler = () -> ()
 typealias IntHandler = (Int) -> ()
+typealias MovieKindHandler = (MovieKind) -> ()
+typealias MoviesViewDataHandler = (MoviesViewData) -> Void
+typealias DataHandler = (Data) -> Void

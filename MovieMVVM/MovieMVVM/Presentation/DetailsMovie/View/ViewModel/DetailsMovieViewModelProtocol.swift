@@ -1,5 +1,5 @@
 // DetailsMovieViewModelProtocol.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © KarpovaAV. All rights reserved.
 
 import Foundation
 
@@ -12,6 +12,6 @@ protocol DetailsMovieViewModelProtocol: AnyObject {
     var reloadRecommendationMoviesHandler: VoidHandler? { get set }
     func fetchRecommendationMovies()
     func fetchDetailsMovie()
-    func fetchPhoto(to movie: MovieDetails, completion: ((Data) -> Void)?)
-    func fetchRecommendationMoviePhoto(to movie: RecommendationMovie, completion: ((Data) -> Void)?)
+    func fetchPhoto(to movie: MovieDetails, completion: DataHandler?)
+    func fetchRecommendationMoviePhoto(to movie: RecommendationMovie, completion: DataHandler?)
 }

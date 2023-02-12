@@ -1,5 +1,5 @@
 // DataService.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © KarpovaAV. All rights reserved.
 
 import Foundation
 
@@ -33,8 +33,17 @@ final class DataService: DataServiceProtocol {
             // swiftlint: enable all
             completion?(.success(coreDataResults))
         } else {
-            fetchApiMovie(kind: kind, page: page, apiKey: apiKey) { movieResponse in
-                completion?(.success(movieResponse))
+            fetchApiMovie(kind: kind, page: page, apiKey: apiKey) { result in
+                switch result {
+                case let .success(movieResponse):
+                    completion?(.success(movieResponse))
+                case .failure(.urlFailure):
+                    completion?(.failure(.urlFailure))
+                case .failure(.decodingFailure):
+                    completion?(.failure(.decodingFailure))
+                case .failure(.unknown):
+                    completion?(.failure(.unknown))
+                }
             }
         }
     }
@@ -47,8 +56,17 @@ final class DataService: DataServiceProtocol {
             // swiftlint: enable all
             completion?(.success(coreDataResults))
         } else {
-            fetchApiDetailsMovie(id: id, apiKey: apiKey) { movie in
-                completion?(.success(movie))
+            fetchApiDetailsMovie(id: id, apiKey: apiKey) { result in
+                switch result {
+                case let .success(movie):
+                    completion?(.success(movie))
+                case .failure(.urlFailure):
+                    completion?(.failure(.urlFailure))
+                case .failure(.decodingFailure):
+                    completion?(.failure(.decodingFailure))
+                case .failure(.unknown):
+                    completion?(.failure(.unknown))
+                }
             }
         }
     }
@@ -64,8 +82,17 @@ final class DataService: DataServiceProtocol {
             // swiftlint: enable all
             completion?(.success(coreDataResults))
         } else {
-            fetchApiRecommendationMovies(id: id, apiKey: apiKey) { movies in
-                completion?(.success(movies))
+            fetchRecommendationsMovies(id: id, apiKey: apiKey) { result in
+                switch result {
+                case let .success(movies):
+                    completion?(.success(movies))
+                case .failure(.urlFailure):
+                    completion?(.failure(.urlFailure))
+                case .failure(.decodingFailure):
+                    completion?(.failure(.decodingFailure))
+                case .failure(.unknown):
+                    completion?(.failure(.unknown))
+                }
             }
         }
     }
@@ -75,53 +102,62 @@ final class DataService: DataServiceProtocol {
     private func fetchApiRecommendationMovies(
         id: Int,
         apiKey: String,
-        completion: ((RecommendationMovieResponse) -> ())?
+        completion: ((Result<RecommendationMovieResponse, NetworkError>) -> ())?
     ) {
         networkService.fetchRecommendationsMovies(id: id, apiKey: apiKey) { [weak self] result in
             guard let self else { return }
             switch result {
             case let .success(response):
-                completion?(response)
+                completion?(.success(response))
                 self.coreDataService.safeRecommendationMovies(id: id, recommendationMovieResponse: response)
             case .failure(.unknown):
-                print(NetworkError.unknown.description)
+                completion?(.failure(.unknown))
             case .failure(.decodingFailure):
-                print(NetworkError.decodingFailure.description)
+                completion?(.failure(.decodingFailure))
             case .failure(.urlFailure):
-                print(NetworkError.urlFailure.description)
+                completion?(.failure(.urlFailure))
             }
         }
     }
 
-    private func fetchApiDetailsMovie(id: Int, apiKey: String, completion: ((MovieDetails) -> ())?) {
+    private func fetchApiDetailsMovie(
+        id: Int,
+        apiKey: String,
+        completion: ((Result<MovieDetails, NetworkError>) -> ())?
+    ) {
         networkService.fetchDetailsMovie(id: id, apiKey: apiKey) { [weak self] result in
             guard let self else { return }
             switch result {
             case let .success(response):
-                completion?(response)
+                completion?(.success(response))
                 self.coreDataService.safeMovieDetails(movie: response)
             case .failure(.unknown):
-                print(NetworkError.unknown.description)
+                completion?(.failure(.unknown))
             case .failure(.decodingFailure):
-                print(NetworkError.decodingFailure.description)
+                completion?(.failure(.decodingFailure))
             case .failure(.urlFailure):
-                print(NetworkError.urlFailure.description)
+                completion?(.failure(.urlFailure))
             }
         }
     }
 
-    private func fetchApiMovie(kind: MovieKind, page: Int, apiKey: String, completion: ((MovieResponse) -> ())?) {
+    private func fetchApiMovie(
+        kind: MovieKind,
+        page: Int,
+        apiKey: String,
+        completion: ((Result<MovieResponse, NetworkError>) -> ())?
+    ) {
         networkService.fetchMovies(kind: kind, page: page, apiKey: apiKey) { [weak self] result in
             switch result {
             case let .success(response):
                 self?.coreDataService.safeMovies(movieType: kind, movieResponse: response)
-                completion?(response)
+                completion?(.success(response))
             case .failure(.unknown):
-                print(NetworkError.unknown.description)
+                completion?(.failure(.unknown))
             case .failure(.decodingFailure):
-                print(NetworkError.decodingFailure.description)
+                completion?(.failure(.decodingFailure))
             case .failure(.urlFailure):
-                print(NetworkError.urlFailure.description)
+                completion?(.failure(.urlFailure))
             }
         }
     }

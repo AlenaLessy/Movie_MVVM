@@ -1,5 +1,5 @@
 // MoviesViewController.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © KarpovaAV. All rights reserved.
 
 import UIKit
 
@@ -116,16 +116,25 @@ final class MoviesViewController: UIViewController {
         }
     }
 
+    // MARK: - Initializers
+
+    init(moviesViewModel: MoviesViewModelProtocol) {
+        self.moviesViewModel = moviesViewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     // MARK: - Public Methods
 
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         switch moviesViewData {
         case .initial:
-            safeApiKey()
-            setupUI()
-            configureBindings()
-            setupMoviesViewDataStatus()
+            configureView()
         case .loading:
             moviesViewModel.refreshControlAction()
             activityIndicatorView.startAnimating()
@@ -144,6 +153,13 @@ final class MoviesViewController: UIViewController {
     }
 
     // MARK: - Private Methods
+
+    private func configureView() {
+        safeApiKey()
+        setupUI()
+        configureBindings()
+        setupMoviesViewDataStatus()
+    }
 
     private func safeApiKey() {
         moviesViewModel.reloadApiKeyValue = { [weak self] in
