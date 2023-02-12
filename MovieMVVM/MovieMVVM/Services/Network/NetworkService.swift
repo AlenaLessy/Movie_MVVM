@@ -1,5 +1,5 @@
 // NetworkService.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © KarpovaAV. All rights reserved.
 
 import Foundation
 
@@ -7,7 +7,6 @@ final class NetworkService: NetworkServiceProtocol {
     // MARK: - Private Constants
 
     private enum Constants {
-        static let apiKey = "0ec73b9e206615099e204ec4a0da2380"
         static let baseUrlString = "https://api.themoviedb.org/3/"
         static let queryItemApiKeyName = "api_key"
         static let queryItemLanguageName = "language"
@@ -27,14 +26,22 @@ final class NetworkService: NetworkServiceProtocol {
 
     // MARK: - Public Methods
 
-    func fetchMovies(kind: MovieKind, page: Int, completion: ((Result<MovieResponse, NetworkError>) -> ())?) {
+    func fetchMovies(
+        kind: MovieKind,
+        page: Int,
+        apiKey: String,
+        completion: ((Result<MovieResponse, NetworkError>) -> ())?
+    ) {
         guard var url = URL(string: Constants.baseUrlString + kind.path) else {
             completion?(.failure(.urlFailure))
             return
         }
 
         url.append(queryItems: [
-            URLQueryItem(name: Constants.queryItemApiKeyName, value: Constants.apiKey),
+            URLQueryItem(
+                name: Constants.queryItemApiKeyName,
+                value: apiKey
+            ),
             URLQueryItem(name: Constants.queryItemLanguageName, value: Constants.language),
             URLQueryItem(name: Constants.queryItemPageName, value: page.description)
         ])
@@ -57,14 +64,14 @@ final class NetworkService: NetworkServiceProtocol {
         }.resume()
     }
 
-    func fetchDetailsMovie(id: Int, completion: ((Result<MovieDetails, NetworkError>) -> ())?) {
+    func fetchDetailsMovie(id: Int, apiKey: String, completion: ((Result<MovieDetails, NetworkError>) -> ())?) {
         guard var url = URL(string: Constants.baseUrlString + Constants.movieText + id.description) else {
             completion?(.failure(.urlFailure))
             return
         }
 
         url.append(queryItems: [
-            URLQueryItem(name: Constants.queryItemApiKeyName, value: Constants.apiKey),
+            URLQueryItem(name: Constants.queryItemApiKeyName, value: apiKey),
             URLQueryItem(name: Constants.queryItemLanguageName, value: Constants.language)
         ])
 
@@ -87,7 +94,7 @@ final class NetworkService: NetworkServiceProtocol {
     }
 
     func fetchRecommendationsMovies(
-        id: Int,
+        id: Int, apiKey: String,
         completion: ((Result<RecommendationMovieResponse, NetworkError>) -> ())?
     ) {
         guard var url = URL(
@@ -99,7 +106,7 @@ final class NetworkService: NetworkServiceProtocol {
         }
 
         url.append(queryItems: [
-            URLQueryItem(name: Constants.queryItemApiKeyName, value: Constants.apiKey),
+            URLQueryItem(name: Constants.queryItemApiKeyName, value: apiKey),
             URLQueryItem(name: Constants.queryItemLanguageName, value: Constants.language)
         ])
 

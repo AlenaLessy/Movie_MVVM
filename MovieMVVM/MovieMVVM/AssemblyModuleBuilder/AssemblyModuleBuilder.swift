@@ -1,5 +1,5 @@
 // AssemblyModuleBuilder.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © KarpovaAV. All rights reserved.
 
 import UIKit
 
@@ -7,6 +7,8 @@ import UIKit
 protocol AssemblyBuilderProtocol {
     func makeMoviesModule() -> UIViewController
     func makeDetailsMovieModule(id: Int) -> UIViewController
+    func makeImageProxyService() -> ImageServiceProtocol
+    func makeDataService() -> DataServiceProtocol
     func makeImageService() -> ImageServiceProtocol
 }
 
@@ -15,34 +17,50 @@ final class AssemblyModuleBuilder: AssemblyBuilderProtocol {
     // MARK: - Public Methods
 
     func makeMoviesModule() -> UIViewController {
-        let view = MoviesViewController()
-        let networkService = NetworkService()
+        let dataService = makeDataService()
         let imageService = makeImageService()
+        let storageKeyChain = StorageKeyChain()
         let moviesViewModel = MoviesViewModel(
-            networkService: networkService,
-            imageService: imageService
+            dataService: dataService,
+            imageService: imageService,
+            storageKeyChain: storageKeyChain
         )
-        view.moviesViewModel = moviesViewModel
+        let view = MoviesViewController(moviesViewModel: moviesViewModel)
         return view
     }
 
     func makeDetailsMovieModule(id: Int) -> UIViewController {
-        let view = DetailsMovieViewController()
-        let networkService = NetworkService()
+        let dataService = makeDataService()
         let imageService = makeImageService()
         let detailsMovieViewModel = DetailsMovieViewModel(
             id: id,
-            networkService: networkService,
+            dataService: dataService,
             imageService: imageService
         )
-        view.detailsMovieViewModel = detailsMovieViewModel
+        let view = DetailsMovieViewController(detailsMovieViewModel: detailsMovieViewModel)
         return view
     }
 
-    func makeImageService() -> ImageServiceProtocol {
+    func makeImageProxyService() -> ImageServiceProtocol {
         let fileManagerService = FileManagerService()
         let imageApiService = ImageApiService()
-        let imageService = ImageService(fileManagerService: fileManagerService, imageApiService: imageApiService)
+        let imageProxyService = ImageProxyService(
+            fileManagerService: fileManagerService,
+            imageApiService: imageApiService
+        )
+        return imageProxyService
+    }
+
+    func makeDataService() -> DataServiceProtocol {
+        let networkService = NetworkService()
+        let coreDataService = CoreDataService()
+        let dataProvider = DataService(networkService: networkService, coreDataService: coreDataService)
+        return dataProvider
+    }
+
+    func makeImageService() -> ImageServiceProtocol {
+        let imageProxyService = makeImageProxyService()
+        let imageService = ImageService(imageProxyService: imageProxyService)
         return imageService
     }
 }

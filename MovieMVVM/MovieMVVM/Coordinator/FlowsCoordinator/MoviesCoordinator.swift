@@ -1,5 +1,5 @@
 // MoviesCoordinator.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © KarpovaAV. All rights reserved.
 
 import UIKit
 
@@ -10,6 +10,16 @@ final class MoviesCoordinator: BaseCoordinator {
     var rootController: UINavigationController?
     var onFinishFlow: VoidHandler?
 
+    // MARK: - Private Properties
+
+    private var assemblyBuilder: AssemblyBuilderProtocol!
+
+    // MARK: - Initializers
+
+    init(assemblyBuilder: AssemblyBuilderProtocol) {
+        self.assemblyBuilder = assemblyBuilder
+    }
+
     // MARK: - Public Methods
 
     override func start() {
@@ -19,7 +29,8 @@ final class MoviesCoordinator: BaseCoordinator {
     // MARK: - Private Methods
 
     private func showMoviesModule() {
-        guard let moviesViewController = AssemblyModuleBuilder().makeMoviesModule() as? MoviesViewController
+        guard let moviesViewController = assemblyBuilder.makeMoviesModule()
+            as? MoviesViewController
         else { return }
 
         moviesViewController.showDetailsMovieHandler = { [weak self] id in
@@ -33,8 +44,8 @@ final class MoviesCoordinator: BaseCoordinator {
     }
 
     private func showDetailsMovie(id: Int) {
-        guard let detailsMovieViewController = AssemblyModuleBuilder()
-            .makeDetailsMovieModule(id: id) as? DetailsMovieViewController
+        guard let detailsMovieViewController = assemblyBuilder.makeDetailsMovieModule(id: id)
+            as? DetailsMovieViewController
         else { return }
         rootController?.pushViewController(detailsMovieViewController, animated: true)
     }

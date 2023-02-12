@@ -1,5 +1,5 @@
 // NetworkError.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © KarpovaAV. All rights reserved.
 
 import Foundation
 
@@ -8,4 +8,15 @@ enum NetworkError: Error {
     case unknown
     case decodingFailure
     case urlFailure
+
+    var description: String {
+        switch self {
+        case .unknown:
+            return "Неизвестная ошибка"
+        case .decodingFailure:
+            return "Ошибка декодирования"
+        case .urlFailure:
+            return "Ошибка URL"
+        }
+    }
 }

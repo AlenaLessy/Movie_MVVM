@@ -1,5 +1,5 @@
 // SceneDelegate.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © KarpovaAV. All rights reserved.
 
 import UIKit
 
@@ -7,6 +7,7 @@ import UIKit
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     var coordinator: ApplicationCoordinator?
+    var assemblyBuilder: AssemblyBuilderProtocol!
 
     func scene(
         _ scene: UIScene,
@@ -16,7 +17,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: scene)
         window.makeKeyAndVisible()
-        coordinator = ApplicationCoordinator()
+        assemblyBuilder = AssemblyModuleBuilder()
+        coordinator = ApplicationCoordinator(assemblyBuilder: assemblyBuilder)
         coordinator?.start()
     }
 }

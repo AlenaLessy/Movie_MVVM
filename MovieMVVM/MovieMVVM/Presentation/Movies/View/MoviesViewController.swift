@@ -1,5 +1,5 @@
 // MoviesViewController.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © KarpovaAV. All rights reserved.
 
 import UIKit
 
@@ -27,6 +27,8 @@ final class MoviesViewController: UIViewController {
         static let cellIdentifier = "cellIdentifier"
         static let buttonAlphaFullValue = 1.0
         static let buttonAlphaHalfValue = 0.5
+        static let titleAlertText = "Внимание"
+        static let messageAlertText = "Введите ваш APIKEY"
     }
 
     private enum ConstantsOfConstraint {
@@ -114,15 +116,25 @@ final class MoviesViewController: UIViewController {
         }
     }
 
+    // MARK: - Initializers
+
+    init(moviesViewModel: MoviesViewModelProtocol) {
+        self.moviesViewModel = moviesViewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     // MARK: - Public Methods
 
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         switch moviesViewData {
         case .initial:
-            setupUI()
-            configureBindings()
-            setupMoviesViewDataStatus()
+            configureView()
         case .loading:
             moviesViewModel.refreshControlAction()
             activityIndicatorView.startAnimating()
@@ -141,6 +153,25 @@ final class MoviesViewController: UIViewController {
     }
 
     // MARK: - Private Methods
+
+    private func configureView() {
+        safeApiKey()
+        setupUI()
+        configureBindings()
+        setupMoviesViewDataStatus()
+    }
+
+    private func safeApiKey() {
+        moviesViewModel.reloadApiKeyValue = { [weak self] in
+            self?.showAlertWidthTextfield(
+                title: Constants.alertTitleText,
+                message: Constants.alertMessageText,
+                actionTitle: Constants.alertActionTitleText
+            ) { [weak self] apikey in
+                self?.moviesViewModel.safeApiKey(value: apikey)
+            }
+        }
+    }
 
     @objc private func refreshControlAction() {
         moviesViewModel.refreshControlAction()

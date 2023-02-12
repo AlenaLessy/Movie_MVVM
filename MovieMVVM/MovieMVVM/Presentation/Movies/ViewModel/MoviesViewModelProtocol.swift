@@ -1,5 +1,5 @@
 // MoviesViewModelProtocol.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © KarpovaAV. All rights reserved.
 
 import Foundation
 
@@ -10,11 +10,13 @@ protocol MoviesViewModelProtocol: AnyObject {
     var page: Int { get }
     var totalPages: Int { get }
     var isLoading: Bool { get }
-    var movieKindHandler: ((MovieKind) -> ())? { get set }
-    var moviesViewData: ((MoviesViewData) -> Void)? { get set }
+    var movieKindHandler: MovieKindHandler? { get set }
+    var moviesViewData: MoviesViewDataHandler? { get set }
+    var reloadApiKeyValue: VoidHandler? { get set }
     func fetchMovies(_ kind: MovieKind, pagination: Bool)
     func handleChangedKind(to identifier: String?)
     func newFetchMovies(to indexPathRow: Int)
     func refreshControlAction()
-    func fetchPhoto(to movie: Movie, completion: ((Data) -> Void)?)
+    func fetchPhoto(to movie: Movie, completion: DataHandler?)
+    func safeApiKey(value: String)
 }

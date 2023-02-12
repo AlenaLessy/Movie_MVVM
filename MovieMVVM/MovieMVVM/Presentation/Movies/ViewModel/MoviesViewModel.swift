@@ -1,5 +1,5 @@
 // MoviesViewModel.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © KarpovaAV. All rights reserved.
 
 import Foundation
 
@@ -18,28 +18,39 @@ final class MoviesViewModel: MoviesViewModelProtocol {
     var page = Constants.one
     var totalPages = Constants.one
     var isLoading = false
-    var movieKindHandler: ((MovieKind) -> ())?
-    var moviesViewData: ((MoviesViewData) -> Void)?
+    var movieKindHandler: MovieKindHandler?
+    var moviesViewData: MoviesViewDataHandler?
+    var reloadApiKeyValue: VoidHandler?
 
     // MARK: - Private Properties
 
-    private let networkService: NetworkServiceProtocol
+    private let dataService: DataServiceProtocol
     private let imageService: ImageServiceProtocol
+    private let storageKeyChain: StorageKeyChainProtocol
 
     // MARK: - Initializers
 
     required init(
-        networkService: NetworkServiceProtocol,
-        imageService: ImageServiceProtocol
+        dataService: DataServiceProtocol,
+        imageService: ImageServiceProtocol,
+        storageKeyChain: StorageKeyChainProtocol
     ) {
-        self.networkService = networkService
+        self.dataService = dataService
         self.imageService = imageService
+        self.storageKeyChain = storageKeyChain
         fetchMovies(currentKind)
     }
 
     // MARK: - Public Methods
 
-    func fetchPhoto(to movie: Movie, completion: ((Data) -> Void)?) {
+    func safeApiKey(value: String) {
+        var apiKey = storageKeyChain.readValueFromKeyChain(from: .apiKey)
+        guard apiKey.isEmpty else { return }
+        storageKeyChain.safeValueToKeyChain(key: .apiKey, value: value)
+        reloadApiKeyValue?()
+    }
+
+    func fetchPhoto(to movie: Movie, completion: DataHandler?) {
         guard let urlString = movie.posterPath else { return }
         imageService.fetchPhoto(byUrl: urlString) { data in
             guard let data else { return }
@@ -51,22 +62,26 @@ final class MoviesViewModel: MoviesViewModelProtocol {
         isLoading = true
         moviesViewData?(.loading)
         page = pagination ? page + Constants.one : page
-        networkService.fetchMovies(kind: kind, page: page) { [weak self] result in
-            guard let self else { return }
-            self.isLoading = false
-            DispatchQueue.main.async { [weak self] in
+        dataService
+            .fetchMovies(
+                kind: kind,
+                page: page,
+                apiKey: storageKeyChain.readValueFromKeyChain(from: .apiKey)
+            ) { [weak self] result in
                 guard let self else { return }
-                switch result {
-                case let .success(response):
-                    self.page = response.page
-                    self.totalPages = response.totalPages
-                    self.movies = pagination ? self.movies + response.movies : response.movies
-                    self.moviesViewData?(.success)
-                case .failure:
-                    self.moviesViewData?(.failure)
+                self.isLoading = false
+                DispatchQueue.main.async {
+                    switch result {
+                    case let .success(response):
+                        self.page = response.page
+                        self.totalPages = response.totalPages
+                        self.movies = pagination ? self.movies + response.movies : response.movies
+                        self.moviesViewData?(.success)
+                    case .failure:
+                        self.moviesViewData?(.failure)
+                    }
                 }
             }
-        }
     }
 
     func handleChangedKind(to identifier: String?) {
