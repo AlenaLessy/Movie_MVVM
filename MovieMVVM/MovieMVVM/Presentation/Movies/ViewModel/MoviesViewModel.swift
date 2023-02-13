@@ -90,7 +90,7 @@ final class MoviesViewModel: MoviesViewModelProtocol {
         else { return }
         guard currentKind != kind else { return }
         movies = []
-        moviesViewData?(.success)
+        moviesViewData?(.loading)
         page = Constants.one
         currentKind = kind
         fetchMovies(currentKind)
