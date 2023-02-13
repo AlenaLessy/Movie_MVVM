@@ -23,7 +23,7 @@ final class MockDataService: DataServiceProtocol {
     private let mockNetworkService = MockNetworkService()
     private let mockCoreDataService = MockCoreDataService()
 
-    // MARK: - Public Properties
+    // MARK: - Public Methods
 
     func fetchMovies(
         kind: MovieMVVM.MovieKind,
