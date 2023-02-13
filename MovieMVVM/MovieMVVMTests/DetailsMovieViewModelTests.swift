@@ -39,6 +39,7 @@ final class DetailsMovieViewModelTests: XCTestCase {
     // MARK: - Public Methods
 
     override func setUp() {
+        super.setUp()
         detailsMovieViewModel = DetailsMovieViewModel(
             id: Constants.idNumber,
             dataService: mockDataService,
@@ -47,6 +48,7 @@ final class DetailsMovieViewModelTests: XCTestCase {
     }
 
     override func tearDown() {
+        super.tearDown()
         detailsMovieViewModel = nil
     }
 

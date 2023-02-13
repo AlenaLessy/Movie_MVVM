@@ -19,10 +19,12 @@ final class StorageKeyChainTests: XCTestCase {
     // MARK: - Public Methods
 
     override func setUp() {
+        super.setUp()
         storageKeyChain = StorageKeyChain()
     }
 
     override func tearDown() {
+        super.tearDown()
         storageKeyChain = nil
     }
 

@@ -20,10 +20,12 @@ final class ImageServiceTests: XCTestCase {
     // MARK: - Public Methods
 
     override func setUp() {
+        super.setUp()
         imageService = ImageService(imageProxyService: imageProxyService)
     }
 
     override func tearDown() {
+        super.tearDown()
         imageService = nil
     }
 

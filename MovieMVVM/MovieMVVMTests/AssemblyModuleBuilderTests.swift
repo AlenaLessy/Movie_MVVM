@@ -19,10 +19,12 @@ final class AssemblyModuleBuilderTests: XCTestCase {
     // MARK: - Public Methods
 
     override func setUp() {
+        super.setUp()
         assemblyModuleBuilder = AssemblyModuleBuilder()
     }
 
     override func tearDown() {
+        super.tearDown()
         assemblyModuleBuilder = nil
     }
 
